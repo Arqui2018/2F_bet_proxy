@@ -9,7 +9,7 @@ services:
   bet-api:
     image: arqui2018/2f_gateway_api
     environment:
-      PORT: '4000'
+      PORT: '5000'
       SHOW_URLS: 'true'
   #    USERS_URL: '18.233.69.134'
       USERS_PORT: '4001'
