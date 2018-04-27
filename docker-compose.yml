@@ -26,7 +26,6 @@ version: '2.1'
     #    RESULTS_URL: '35.194.70.72'
         RESULTS_PORT: '4005'
         RESULTS_ENTRY: 'results'
-
     user_db:
       image: mysql
       ports:
@@ -76,7 +75,7 @@ version: '2.1'
         - "27017:27017"
     matches_ms:
       image: arqui2018/2f_matches_ms
-      command: npm start
+      command: npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start
       environment:
         NODE_ENV: production
         PORT: '4003'
