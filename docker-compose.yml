@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   bet-proxy:
-    image: arqui2018/2f_bet_proxy
+    image: arqui2018/2f_bet_proxy:latest
     depends_on:
       - bet-api
     ports:
@@ -75,7 +75,7 @@ services:
       - "27017:27017"
   matches_ms:
     image: arqui2018/2f_matches_ms
-    command: npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start
+    command: bash -c "npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start"
     environment:
       NODE_ENV: production
       PORT: '4003'
@@ -100,7 +100,7 @@ services:
       MYSQL_HOST: result_db
   result_ms:
     image: arqui2018/2f_result_ms
-    command: python manage.py runserver 0.0.0.0:4005
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:4005"
     environment:
       PORT: '4005'
     depends_on:
