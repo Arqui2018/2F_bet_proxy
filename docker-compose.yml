@@ -1,0 +1,108 @@
+version: '2.1'
+  services:
+    bet-proxy:
+      image: arqui2018/2f_bet_proxy
+      depends_on:
+        - bet-api
+      ports:
+        - "80:80"
+    bet-api:
+      image: arqui2018/2f_gateway_api
+      environment:
+        PORT: '4000'
+        SHOW_URLS: 'true'
+    #    USERS_URL: '18.233.69.134'
+        USERS_PORT: '4001'
+        USERS_ENTRY: 'sessions'
+    #    WALLETS_URL: '35.194.70.72'
+        WALLETS_PORT: '4040'
+        WALLETS_ENTRY: 'wallets/resources/wallet'
+    #    MATCHES_URL: '52.41.9.11'
+        MATCHES_PORT: '4003'
+        MATCHES_ENTRY: 'matches'
+    #    TEAMS_URL: '52.41.9.11'
+        TEAMS_PORT: '4003'
+        TEAMS_ENTRY: 'teams'
+    #    RESULTS_URL: '35.194.70.72'
+        RESULTS_PORT: '4005'
+        RESULTS_ENTRY: 'results'
+
+    user_db:
+      image: mysql
+      ports:
+        - "3009:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_USER: apuesta
+        MYSQL_PASSWORD: 1234
+        MYSQL_DATABASE: user
+        MYSQL_HOST: user_db
+    user_ms:
+      image: arqui2018/2f_user_ms
+      command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 4001 -b '0.0.0.0'"
+      environment:
+        PORT: '4001'
+      depends_on:
+        - user_db
+    wallets-db:
+      image: mysql
+      ports:
+        - "3309:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: 123
+        MYSQL_DATABASE: wallets
+        MYSQL_USER: arqsoft
+        MYSQL_PASSWORD: 123
+        MYSQL_HOST: wallets-db
+    wallets-ms:
+      image: arqui2018/2f_wallet_ms
+      environment:
+        PORT: '4040'
+      depends_on:
+        - wallets-db
+    matches_db:
+      image: mysql
+      ports:
+        - "3311:3306"
+      environment:
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_USER: apuesta
+        MYSQL_PASSWORD: 1234
+        MYSQL_DATABASE: match
+        MYSQL_HOST: matches_db
+    teams_db:
+      image: mongo
+      ports:
+        - "27017:27017"
+    matches_ms:
+      image: arqui2018/2f_matches_ms
+      command: npm start
+      environment:
+        NODE_ENV: production
+        PORT: '4003'
+        MYSQL_ROOT_PASSWORD: 1234
+        MYSQL_USER: apuesta
+        MYSQL_PASSWORD: 1234
+        MYSQL_DATABASE: match
+        MYSQL_HOST: matches_db
+        MONGO_URL: mongodb://teams_db:27017/db
+      depends_on:
+        - matches_db
+        - teams_db
+    result_db:
+      image: mysql
+      ports:
+        - "3013:3013"
+      environment:
+        MYSQL_ROOT_PASSWORD: arqui
+        MYSQL_USER: user
+        MYSQL_PASSWORD: arqui
+        MYSQL_DATABASE: result_db_mysql
+        MYSQL_HOST: result_db
+    result_ms:
+      image: arqui2018/2f_result_ms
+      command: python manage.py runserver 0.0.0.0:4005
+      environment:
+        PORT: '4005'
+      depends_on:
+        - result_db
