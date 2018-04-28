@@ -1,12 +1,12 @@
 version: '2.1'
 services:
-  bet-proxy:
+  bet_proxy:
     image: arqui2018/2f_bet_proxy
     depends_on:
-      - bet-api
+      - bet_api
     ports:
       - "80:80"
-  bet-api:
+  bet_api:
     image: arqui2018/2f_gateway_api
     environment:
       PORT: '5000'
