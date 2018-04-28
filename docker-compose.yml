@@ -11,20 +11,25 @@ services:
     environment:
       PORT: '5000'
       SHOW_URLS: 'true'
-  #    USERS_URL: '18.233.69.134'
+
       USERS_PORT: '4001'
+      USERS_URL: 'user_ms'
       USERS_ENTRY: 'sessions'
-  #    WALLETS_URL: '35.194.70.72'
+
       WALLETS_PORT: '4040'
+      WALLETS_URL: 'wallet_ms'
       WALLETS_ENTRY: 'wallets/resources/wallet'
-  #    MATCHES_URL: '52.41.9.11'
+
       MATCHES_PORT: '4003'
+      MATCHES_URL: 'matches_ms'
       MATCHES_ENTRY: 'matches'
-  #    TEAMS_URL: '52.41.9.11'
+
       TEAMS_PORT: '4003'
+      TEAMS_URL: 'matches_ms'
       TEAMS_ENTRY: 'teams'
-  #    RESULTS_URL: '35.194.70.72'
+
       RESULTS_PORT: '4005'
+      RESULTS_URL: 'result_ms'
       RESULTS_ENTRY: 'results'
   user_db:
     image: mysql:5.7.22
@@ -75,7 +80,7 @@ services:
       - "27017:27017"
   matches_ms:
     image: arqui2018/2f_matches_ms
-    command: bash -c "npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start"
+    command: bash -c "sleep 40 && npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start"
     environment:
       NODE_ENV: production
       PORT: '4003'
@@ -100,7 +105,7 @@ services:
       MYSQL_HOST: result_db
   result_ms:
     image: arqui2018/2f_result_ms
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:4005"
+    command: bash -c "sleep 40 && python manage.py migrate && python manage.py runserver 0.0.0.0:4005"
     environment:
       PORT: '4005'
     depends_on:
