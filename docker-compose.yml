@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   bet-proxy:
-    image: arqui2018/2f_bet_proxy:latest
+    image: arqui2018/2f_bet_proxy
     depends_on:
       - bet-api
     ports:
@@ -27,7 +27,7 @@ services:
       RESULTS_PORT: '4005'
       RESULTS_ENTRY: 'results'
   user_db:
-    image: mysql
+    image: mysql:5.7.22
     ports:
       - "3009:3306"
     environment:
@@ -43,8 +43,8 @@ services:
       PORT: '4001'
     depends_on:
       - user_db
-  wallets-db:
-    image: mysql
+  wallets_db:
+    image: mysql:5.7.22
     ports:
       - "3309:3306"
     environment:
@@ -52,15 +52,15 @@ services:
       MYSQL_DATABASE: wallets
       MYSQL_USER: arqsoft
       MYSQL_PASSWORD: 123
-      MYSQL_HOST: wallets-db
-  wallets-ms:
+      MYSQL_HOST: wallets_db
+  wallets_ms:
     image: arqui2018/2f_wallet_ms
     environment:
       PORT: '4040'
     depends_on:
-      - wallets-db
+      - wallets_db
   matches_db:
-    image: mysql
+    image: mysql:5.7.22
     ports:
       - "3311:3306"
     environment:
@@ -89,7 +89,7 @@ services:
       - matches_db
       - teams_db
   result_db:
-    image: mysql
+    image: mysql:5.7.22
     ports:
       - "3013:3013"
     environment:
