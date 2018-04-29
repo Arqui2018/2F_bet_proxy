@@ -62,7 +62,7 @@ services:
     image: arqui2018/2f_wallet_ms
     environment:
       PORT: '4040'
-    depends_on:
+    links:
       - wallets_db
   matches_db:
     image: mysql:5.7.22
