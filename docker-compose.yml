@@ -29,7 +29,7 @@ services:
       TEAMS_ENTRY: 'teams'
 
       RESULTS_PORT: '4005'
-      RESULTS_URL: 'result_ms'
+      RESULTS_URL: 'result-ms'
       RESULTS_ENTRY: 'results'
   user_db:
     image: mysql:5.7.22
@@ -103,7 +103,7 @@ services:
       MYSQL_PASSWORD: arqui
       MYSQL_DATABASE: result_db_mysql
       MYSQL_HOST: result_db
-  result_ms:
+  result-ms:
     image: arqui2018/2f_result_ms
     command: bash -c "sleep 40 && python manage.py migrate && python manage.py runserver 0.0.0.0:4005"
     environment:
