@@ -17,7 +17,7 @@ services:
       USERS_ENTRY: 'sessions'
 
       WALLETS_PORT: '4040'
-      WALLETS_URL: 'wallet_ms'
+      WALLETS_URL: 'wallets_ms'
       WALLETS_ENTRY: 'wallets/resources/wallet'
 
       MATCHES_PORT: '4003'
