@@ -43,7 +43,7 @@ services:
       MYSQL_HOST: user_db
   user_ms:
     image: arqui2018/2f_user_ms
-    command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 4001 -b '0.0.0.0'"
+    command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails s -p 4001 -b '0.0.0.0'"
     environment:
       PORT: '4001'
     depends_on:
@@ -149,6 +149,7 @@ services:
       - "389:389"
       - "636:636"
     hostname: "arqsoft.org"
+    
   phpldapadmin:
     image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
