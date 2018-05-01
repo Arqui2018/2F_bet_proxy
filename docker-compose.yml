@@ -89,7 +89,7 @@ services:
       MYSQL_DATABASE: wallet
       MYSQL_HOST: wallet_db
   wallet_ms:
-    image: jhont285/2f_wallet_ms
+    image: arqui2018/2f_wallet_ms
     command: bash -c "mix ecto.create && mix ecto.migrate && mix phx.server"
     depends_on:
       - wallet_db
