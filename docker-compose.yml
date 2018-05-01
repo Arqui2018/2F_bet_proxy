@@ -25,7 +25,7 @@ services:
       TEAMS_ENTRY: 'teams'
 
       WALLETS_PORT: '4004'
-      WALLETS_URL: 'wallets_ms'
+      WALLETS_URL: 'wallet_ms'
       WALLETS_ENTRY: 'wallets'
 
       RESULTS_PORT: '4005'
