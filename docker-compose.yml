@@ -46,6 +46,7 @@ services:
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails s -p 4001 -b '0.0.0.0'"
     environment:
       PORT: '4001'
+      RAILS_ENV: production
     depends_on:
       - user_db
   matches_db:
@@ -149,7 +150,7 @@ services:
       - "389:389"
       - "636:636"
     hostname: "arqsoft.org"
-    
+
   phpldapadmin:
     image: osixia/phpldapadmin:latest
     container_name: phpldapadmin
