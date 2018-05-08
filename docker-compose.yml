@@ -14,7 +14,7 @@ services:
 
       USERS_PORT: '4001'
       USERS_URL: 'user_ms'
-      USERS_ENTRY: 'sessions'
+      USERS_ENTRY: 'sessions/wsdl'
 
       MATCHES_PORT: '4003'
       MATCHES_URL: 'matches_ms'
