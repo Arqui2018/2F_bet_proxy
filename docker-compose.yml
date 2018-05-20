@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2'
 services:
   bet_proxy:
     image: arqui2018/2f_bet_proxy
