@@ -1,37 +1,37 @@
 version: '2'
 services:
-  bet_proxy:
+  bet-proxy:
     image: arqui2018/2f_bet_proxy
     depends_on:
-      - bet_api
+      - bet-api
     ports:
       - "80:80"
-  bet_api:
+  bet-api:
     image: arqui2018/2f_gateway_api
     environment:
       PORT: '5000'
       SHOW_URLS: 'true'
 
       USERS_PORT: '4001'
-      USERS_URL: 'user_ms'
+      USERS_URL: 'user-ms'
       USERS_ENTRY: 'sessions/wsdl'
 
       MATCHES_PORT: '4003'
-      MATCHES_URL: 'matches_ms'
+      MATCHES_URL: 'matches-ms'
       MATCHES_ENTRY: 'matches'
 
       TEAMS_PORT: '4003'
-      TEAMS_URL: 'matches_ms'
+      TEAMS_URL: 'matches-ms'
       TEAMS_ENTRY: 'teams'
 
       WALLETS_PORT: '4004'
-      WALLETS_URL: 'wallet_ms'
+      WALLETS_URL: 'wallet-ms'
       WALLETS_ENTRY: 'wallets'
 
       RESULTS_PORT: '4005'
       RESULTS_URL: 'result-ms'
       RESULTS_ENTRY: 'results'
-  user_db:
+  user-db:
     image: mysql:5.7.22
     ports:
       - "3009:3306"
@@ -40,8 +40,8 @@ services:
       MYSQL_USER: apuesta
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: user
-      MYSQL_HOST: user_db
-  user_ms:
+      MYSQL_HOST: user-db
+  user-ms:
     image: arqui2018/2f_user_ms
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails db:seed && bundle exec rails s -p 4001 -b '0.0.0.0'"
     ports:
@@ -50,8 +50,8 @@ services:
       PORT: '4001'
       RAILS_ENV: production
     depends_on:
-      - user_db
-  matches_db:
+      - user-db
+  matches-db:
     image: mysql:5.7.22
     ports:
       - "3311:3306"
@@ -60,12 +60,12 @@ services:
       MYSQL_USER: apuesta
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: match
-      MYSQL_HOST: matches_db
-  teams_db:
+      MYSQL_HOST: matches-db
+  teams-db:
     image: mongo
     ports:
       - "27017:27017"
-  matches_ms:
+  matches-ms:
     image: arqui2018/2f_matches_ms
     command: bash -c "sleep 40 && npm run sequelize db:migrate && npm run sequelize db:seed:all && npm start"
     environment:
@@ -75,13 +75,13 @@ services:
       MYSQL_USER: apuesta
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: match
-      MYSQL_HOST: matches_db
-      MONGO_URL: mongodb://teams_db:27017/db
+      MYSQL_HOST: matches-db
+      MONGO_URL: mongodb://teams-db:27017/db
     depends_on:
-      - matches_db
-      - teams_db
+      - matches-db
+      - teams-db
 
-  wallet_db:
+  wallet-db:
     image: mysql:5.7.22
     ports:
       - "3309:3306"
@@ -90,17 +90,17 @@ services:
       MYSQL_USER: apuesta
       MYSQL_PASSWORD: 1234
       MYSQL_DATABASE: wallet
-      MYSQL_HOST: wallet_db
-  wallet_ms:
+      MYSQL_HOST: wallet-db
+  wallet-ms:
     image: arqui2018/2f_wallet_ms
     command: bash -c "mix ecto.create && mix ecto.migrate && mix phx.server"
     depends_on:
-      - wallet_db
+      - wallet-db
     environment:
       PORT: '4004'
       MIX_ENV: prod
 
-  result_db:
+  wallet-db:
     image: mysql:5.7.22
     ports:
       - "3013:3013"
@@ -109,14 +109,14 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: arqui
       MYSQL_DATABASE: result_db_mysql
-      MYSQL_HOST: result_db
+      MYSQL_HOST: wallet-db
   result-ms:
     image: arqui2018/2f_result_ms
     command: bash -c "sleep 40 && python manage.py migrate && python manage.py runserver 0.0.0.0:4005"
     environment:
       PORT: '4005'
     depends_on:
-      - result_db
+      - wallet-db
 
   bet-ldap:
     image: osixia/openldap:1.1.8
