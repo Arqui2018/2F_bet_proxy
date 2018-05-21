@@ -1,33 +1,29 @@
-version: '2'
+matches-ms:
+  scale: 2
 
-services:
+wallet-ms:
+  scale: 2
 
-  matches_ms:
-    scale: 2
+user-ms:
+  scale: 2
 
-  user_ms:
-    scale: 2
+user-db:
+  scale: 2
 
-  wallet_ms:
-    scale: 2
+result-ms:
+  scale: 2
 
-  result-ms:
-    scale: 2
+result-db:
+  scale: 2
 
-  bet_api:
-    scale: 4
+phpldapadmin:
+  scale: 1
 
-  user_db:
-    scale: 2
+bet-ldap:
+  scale: 1
 
-  phpldapadmin:
-    scale: 1
+bet-proxy:
+  scale: 1
 
-  bet-ldap:
-    scale: 1
-
-  bet_proxy:
-    scale: 1
-
-  result_db:
-    scale: 2
+bet-api:
+  scale: 2
